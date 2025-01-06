@@ -1,0 +1,23 @@
+<div class="contact-form">
+    <h2>Contactez-nous</h2>
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="field">
+        <label for="email">Email:</label>
+        <input type="email" id="email" pInputText formControlName="email">  
+        <ng-container *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.dirty || contactForm.get('email')?.touched)">
+          <p-message severity="danger" text="L'email est requis." *ngIf="contactForm.get('email')?.errors?.['required']"></p-message>
+          <p-message severity="danger" text="Email invalide." *ngIf="contactForm.get('email')?.errors?.['email']"></p-message>
+        </ng-container>
+      </div>
+      <div class="field">
+        <label for="message">Message:</label>
+        <textarea id="message" pInputTextarea formControlName="message"></textarea>
+        <ng-container *ngIf="contactForm.get('message')?.invalid && (contactForm.get('message')?.dirty || contactForm.get('message')?.touched)">
+          <p-message severity="danger" text="Le message est requis." *ngIf="contactForm.get('message')?.errors?.['required']"></p-message>
+          <p-message severity="danger" text="Le message ne doit pas dépasser 300 caractères." *ngIf="contactForm.get('message')?.errors?.['maxlength']"></p-message>
+        </ng-container>
+      </div>
+      <button pButton type="submit" label="Envoyer" [disabled]="contactForm.invalid"></button>
+    </form>
+    <p-message *ngIf="submissionSuccess" severity="success" text="Demande de contact envoyée avec succès."></p-message>
+</div>  

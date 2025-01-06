@@ -1,0 +1,40 @@
+<p-toolbar [style]="{ height: '100px' }">
+    <div class="p-toolbar-group-start">
+        <img src="assets/icons/icon-72x72.png" alt="logo" />
+    </div>
+    <div class="p-toolbar-group-center">
+        {{ title }}
+    </div>
+    <div class="p-toolbar-group-end">
+        
+        <p-dialog header="Liste panier" [(visible)]="display" 
+        [breakpoints]="{'960px': '75vw', '640px': '100vw'}" [style]="{width: '50vw'}">
+        @for (product of productCart; track product) {
+            <div class="block mb-2">
+                <span class="font-medium text-secondary text-sm">{{ product.category }}</span>
+                <div class="text-lg font-medium text-900 mt-2">{{ product.name }}</div>
+                <app-cart-badge [qtStock]="product.inventoryStatus"></app-cart-badge>
+                <p-button label="Supprimer" severity="danger" (onClick)="onDelete(product)" />
+            </div>
+        }
+        </p-dialog>
+        <button (click)="ShowListOfCart()" icon="pi pi-info-circle" label="Show">
+            <i class="pi pi-shopping-cart" style="font-size: 2rem"></i> 
+            <span style="font-size: 2rem">{{productCart.length}}</span>
+        </button>
+    </div>
+</p-toolbar>
+<p-splitter 
+    [panelSizes]="[20, 80]" 
+    [style]="{ height: 'calc(100vh - 100px)' }">
+    <ng-template pTemplate>
+        <div class="w-full">
+            <app-panel-menu />
+        </div>
+    </ng-template>
+    <ng-template pTemplate>
+        <div class="w-full app-content">
+            <router-outlet></router-outlet>
+        </div>
+    </ng-template>
+</p-splitter>
